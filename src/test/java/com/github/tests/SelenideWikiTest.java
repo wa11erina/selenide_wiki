@@ -44,5 +44,14 @@ public class SelenideWikiTest {
         // Check presence of "JUnit" text inside SoftAssertions
         $("[data-filterable-for=wiki-pages-filter]").shouldHave(text("JUnit5"));
 
+        // Navigate to SoftAssertions
+        $("a[href='/selenide/selenide/wiki/SoftAssertions']").click();
+        // Scroll to  JUnit5 test
+        $("#user-content-3-using-junit5-extend-test-class").shouldBe(Condition.visible).scrollTo();
+
     }
 }
+
+
+
+
