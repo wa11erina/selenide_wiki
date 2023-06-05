@@ -39,15 +39,23 @@ public class SelenideWikiTest {
         // Check presence of "SoftAssertions" text in the search results
         $("[data-filterable-for=wiki-pages-filter]").shouldHave(text("SoftAssertions"));
 
-        // Click "SoftAssertions"
-        $("[data-filterable-for=wiki-pages-filter]").click();
-        // Check presence of "JUnit" text inside SoftAssertions
-        $("[data-filterable-for=wiki-pages-filter]").shouldHave(text("JUnit5"));
-
-        // Navigate to SoftAssertions
+        // Open SoftAssertions page
         $("a[href='/selenide/selenide/wiki/SoftAssertions']").click();
-        // Scroll to  JUnit5 test
-        $("#user-content-3-using-junit5-extend-test-class").shouldBe(Condition.visible).scrollTo();
+        // Check presence of JUnit5 test code on the page
+        $("#wiki-content .markdown-body")
+                .$$("div pre")
+                .findBy(text("@ExtendWith({SoftAssertsExtension.class})"))
+                .shouldHave(text("""
+                        class Tests {
+                          @Test
+                          void test() {
+                            Configuration.assertionMode = SOFT;
+                            open("page.html");
+                                               
+                            $("#first").should(visible).click();
+                            $("#second").should(visible).click();
+                          }
+                        }"""));
 
     }
 }
